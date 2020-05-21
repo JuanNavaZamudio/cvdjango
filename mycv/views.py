@@ -5,6 +5,7 @@ from users.models import Message
 from users.models import User as MyUser
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from .forms import SingUpForm
 
 cvInfo = {
     'name':'Juan Manuel',
@@ -89,12 +90,17 @@ def mySimpleFunction(request):
     else:
         return render(request,'mainPage.html', cvInfo)
 
+
+
 def muestraDemosPorTecnologia(request):
     return render(request,'proyectos.html',{'listaProyectos':listaProyectos})
 
 
+
 def SendMessage(request):
     return render(request,'registerMessage.html',{'state':0})
+
+
 
 @login_required
 def RegisterMessage(request):
@@ -139,34 +145,46 @@ def RegisterMessage(request):
     else:
         return render(request,'registerMessage.html',{'state':0})
 
+
+
 def SingUp(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        name = request.POST['name']
-        email = request.POST['email']
-        password = request.POST['password']
 
-        try:
-            user = User.objects.create_user(
-                username = username,
-                email = email,
-                first_name = name,
-                password = password
-            )
+        form = SingUpForm(request.POST)
 
-            myuser = MyUser(
-                user = user,
-                active = 0
-            )
+        if form.is_valid():
+            data = form.cleaned_data
 
-            myuser.save()
+            username = data['username']
+            name = data['name']
+            email = data['email']
+            password = data['password']
 
-            return redirect('Login')
+            try:
+                user = User.objects.create_user(
+                    username = username,
+                    email = email,
+                    first_name = name,
+                    password = password
+                )
 
-        except IntegrityError:
-            return render(request,'singUp.html',{'state': 'User not valid'})
+                myuser = MyUser(
+                    user = user,
+                    active = 0
+                )
+
+                myuser.save()
+
+                return redirect('Login')
+
+            except IntegrityError:
+                return render(request,'singUp.html',{'state': 'User not valid', 'form':form})
     else:
-        return render(request,'singUp.html',{'state': 'default'})
+        form = SingUpForm()
+    
+    return render(request,'singUp.html', {'form': form})
+
+
 
 def SingIn(request):
     if request.method == 'POST':
