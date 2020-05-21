@@ -1,0 +1,11 @@
+{% extends "base.html" %} {%block title%} Login {%endblock%} {%block content%} {% if state != '' %}
+<div>{{state}}</div>
+{% endif %}
+<form action="{% url 'Login' %}" method="POST">
+    {% csrf_token %}
+    <input id="txtusername" name="username" type="text" placeholder="User name" required />
+    <input id="txtpassword" name="password" type="password" placeholder="Password" required>
+
+    <button class="waves-effect waves-light btn red">Login</button>
+</form>
+{%endblock%}

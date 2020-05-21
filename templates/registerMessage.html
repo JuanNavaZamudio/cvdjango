@@ -1,0 +1,23 @@
+{% extends "base.html" %} {%block title%} Register {%endblock%} {%block content%} {% if state == 1 %}
+<div>
+    <p>Mensaje registrado</p>
+</div>
+{% endif %} {% if errormsg != '' %}
+<div>
+    <p>{{errormsg}}</p>
+</div>
+{% endif %}
+
+<form action="{% url 'RegisterMessage' %}" method="POST">
+    {% csrf_token %}
+
+    <input id="txtname" name="name" type="text" placeholder="nombre" />
+    <input id="txtlastname" name="last_name" type="text" placeholder="apellido" />
+    <input id="txtemail" name="email" type="text" placeholder="correo" />
+    <textarea id="txtmessage" name="message" rows="10" placeholder="Escribe tus dudas o comentarios aquí"></textarea>
+
+    <button class="waves-effect waves-light btn red">Enviar</button>
+    <br>
+    <br>
+</form>
+{%endblock%}

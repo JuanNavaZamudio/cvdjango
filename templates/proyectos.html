@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Proyectos{% endblock %}
+
+{% block content %}
+
+        <div class="row">
+            <h1>Java</h1>
+            {% for proyecto in listaProyectos %}
+                <div class="col s12 m4">
+                <div class="card blue darken-1">
+                    <div class="card-content white-text">
+                    <span class="card-title">{{proyecto.nombre}}</span>
+                    <p>{{proyecto.descripcion}}</p>
+                    </div>
+                </div>
+                </div>
+            {% endfor%}
+
+        </div>
+
+{% endblock  %}

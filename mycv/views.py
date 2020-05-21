@@ -1,5 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth.models import User
+from users.models import Message
+from users.models import User as MyUser
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 cvInfo = {
     'name':'Juan Manuel',
@@ -79,7 +84,108 @@ listaProyectos = [
 
 # Create your views here.
 def mySimpleFunction(request):
-    return render(request,'master.html', cvInfo)
+    if request.method == 'POST':
+        return render(request,'mainPage.html', cvInfo)
+    else:
+        return render(request,'mainPage.html', cvInfo)
 
 def muestraDemosPorTecnologia(request):
     return render(request,'proyectos.html',{'listaProyectos':listaProyectos})
+
+
+def SendMessage(request):
+    return render(request,'registerMessage.html',{'state':0})
+
+@login_required
+def RegisterMessage(request):
+    if request.method == 'POST':
+        
+
+        email = request.POST['email']
+
+        exist = User.objects.filter( username = email )
+
+
+        name = request.POST['name']
+        last_name = request.POST['last_name']
+        message = request.POST['message']
+        
+        try:
+            user = User.objects.create_user(
+                username = email,
+                email = email,
+                first_name = name,
+                last_name = last_name,
+                password = email
+            )
+        
+            myuser = MyUser(
+                user = user,
+                active = 0
+            )
+
+            myuser.save()
+        
+        except IntegrityError:
+            user = authenticate(request, username=email, password=email)
+
+
+        message = Message(user = myuser)
+        message.message = message
+        message.save()
+        
+
+        return render(request,'registerMessage.html',{'state' : 1})
+    else:
+        return render(request,'registerMessage.html',{'state':0})
+
+def SingUp(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        name = request.POST['name']
+        email = request.POST['email']
+        password = request.POST['password']
+
+        try:
+            user = User.objects.create_user(
+                username = username,
+                email = email,
+                first_name = name,
+                password = password
+            )
+
+            myuser = MyUser(
+                user = user,
+                active = 0
+            )
+
+            myuser.save()
+
+            return redirect('Login')
+
+        except IntegrityError:
+            return render(request,'singUp.html',{'state': 'User not valid'})
+    else:
+        return render(request,'singUp.html',{'state': 'default'})
+
+def SingIn(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username,password=password)
+
+        if user:
+            login(request,user)
+
+            return render(request,'login.html',{'state':'user logged correctly'})
+        else:
+            return render(request, 'login.html',{'state': 'user or password not valid'})
+
+    else:
+        return render(request, 'login.html',{'state': ''})
+
+@login_required
+def Logout(request):
+    logout(request)
+    return redirect('cv')

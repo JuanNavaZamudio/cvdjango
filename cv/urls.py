@@ -21,6 +21,11 @@ from mycv import views as mycvView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hola/', views.hola),
-    path('cv/', mycvView.mySimpleFunction),
-    path('proyectosTecnologia/', mycvView.muestraDemosPorTecnologia, name="tecnologyProjects")
+    path('cv/', mycvView.mySimpleFunction, name="cv"),
+    path('proyectosTecnologia/', mycvView.muestraDemosPorTecnologia, name="tecnologyProjects"),
+    path('SendMessage/', mycvView.SendMessage, name='SendMessage'),
+    path("RegisterMessage/", mycvView.RegisterMessage, name="RegisterMessage"),
+    path("Login/", mycvView.SingIn, name="Login"),
+    path("Singup/", mycvView.SingUp, name="Singup"),
+    path("Logout/",mycvView.Logout, name="Logout")
 ]

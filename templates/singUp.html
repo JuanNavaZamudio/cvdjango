@@ -1,0 +1,14 @@
+{% extends "base.html" %} {%block title%} Sing Up {%endblock%} {%block content%}
+<form action="{% url 'Singup' %}" method="POST">
+    {% csrf_token %}
+
+    <input id="txtusername" name="username" type="text" placeholder="User name" required />
+    <input id="txtname" name="name" type="text" placeholder="Name" />
+    <input id="txtemail" name="email" type="text" placeholder="Mail" pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$" required />
+
+    <input id="txtpassword" name="password" type="password" placeholder="Password" required>
+    <input id="txtpassword2" name="password2" type="password" placeholder="confirm password">
+
+    <button class="waves-effect waves-light btn red">Sing up</button>
+</form>
+{%endblock%}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> {% load static %}
+    <link rel="stylesheet" href="{% static " materialize-social/materialize-social.css " %}">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-wrapper indigo">
+                <a href="{% url 'cv' %}" class="brand-logo"><i class="material-icons">bug_report</i>CV</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    {% if user %}
+                    <li><a href="{% url 'Logout'%}">Log out</a></li>
+                    {%else%}
+                    <li><a href="{% url 'Login'%}">Log in</a></li>
+                    <li><a href="{% url 'Singup'%}">register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        {%block content%} {%endblock%}
+    </div>
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'SendMessage' %}">
+            <i class="material-icons">mode_edit</i>
+        </a>
+    </div>
+
+    <footer class="page-footer blue darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col m6 l6 s12">
+                    <h5 class="white-text">Contact</h5>
+                    <p class="grey-text text-lighten-4">
+                        If you require informatic and development services, dont think so much, contact me.
+                    </p>
+                </div>
+                <div class="col m4 offset-m2 l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        {% for link in contactLinks%}
+                        <li>
+                            <a class="grey-text text-lighten-3 social" href="{{link.url}}" target="_blank">
+                                <i class="fa {{link.icon}} "></i>{{link.tooltipName}}</a>
+                        </li>
+                        {% endfor%}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2020 Copyright Text
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
+</body>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</html>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{%block title%}
+    My CV
+{%endblock%}
+
+
+{%block content%}
+    <div class="row">
+          <div class="col s12 m9 l9">
+            <div class="card horizontal">
+              <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator circle responsive -img" src="{{photo}}">
+              </div>
+              <div class="card-content">
+                <span class="card-title">{{name}}</span>
+                <p>{{objetive}}</p>
+              </div>
+            </div>
+            </div>
+            <div class="col s12 m3 l3">
+            <ul class="collection with-header">
+            <li class="collection-header"><h5>Abilities</h5></li>
+            
+            {% for hability in abilities%}
+            <li class="collection-item">{{hability}}</li>
+            {% endfor %}
+
+            </ul>
+          </div>
+    </div>
+
+    <div class="row">
+        <ul class="collection with-header">
+            <li class="collection-header"><h4>Principal tecnologies</h4></li>
+            {% for tecnology in tecnologies %}
+                <a href="{% url "tecnologyProjects" %}" >
+                  <li class="collection-item">{{tecnology.name}}</li>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row">
+        {% for place in experience %}
+        <div class="col s12 m4">
+            <div class="card blue darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">{{place.place}}</span>
+                <p>{{place.description}}</p>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
