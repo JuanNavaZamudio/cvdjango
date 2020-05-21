@@ -18,7 +18,7 @@
             <div class="nav-wrapper indigo">
                 <a href="{% url 'cv' %}" class="brand-logo"><i class="material-icons">bug_report</i>CV</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    {% if user %}
+                    {% if request.user.is_authenticated %}
                     <li><a href="{% url 'Logout'%}">Log out</a></li>
                     {%else%}
                     <li><a href="{% url 'Login'%}">Log in</a></li>
