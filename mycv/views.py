@@ -181,6 +181,7 @@ def SingUp(request):
                 return render(request,'singUp.html',{'state': 'User not valid', 'form':form})
     else:
         form = SingUpForm()
+        form.field_order
     
     return render(request,'singUp.html', {'form': form})
 

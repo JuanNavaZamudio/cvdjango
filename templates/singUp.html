@@ -1,12 +1,6 @@
 {% extends "base.html" %} {%block title%} Sing Up {%endblock%} {%block content%}
 <form action="{% url 'Singup' %}" method="POST">
-    {% csrf_token %}
-    <input id="txtusername" name="username" type="text" placeholder="User name" required value="{%if form.errors %}{{form.username.value}}{% endif %}" /> {% if form.username.errors %} {% for error in form.username.errors %} {{error}} {%endfor%} {%endif%}
-    <input id="txtname" name="name" type="text" placeholder="Name" value="{%if form.errors %}{{form.name.value}}{% endif %}" /> {% if form.name.errors %} {% for error in form.name.errors %} {{error}} {%endfor%} {%endif%}
-    <input id="txtemail" name="email" type="text" placeholder="Mail" pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$" required value="{%if form.errors %}{{form.email.value}}{% endif %}" /> {% if form.email.errors %} {% for error in form.email.errors %} {{error}}
-    {%endfor%} {%endif%}
-    <input id="txtpassword" name="password" type="password" placeholder="Password" required value="{%if form.errors %}{{form.password.value}}{% endif %}"> {% if form.password.errors %} {% for error in form.password.errors %} {{error}} {%endfor%} {%endif%}
-    <input id="txtpassword2" name="password2" type="password" placeholder="confirm password" value="{%if form.errors %}{{form.password2.value}}{% endif %}"> {% if form.password2.errors %} {% for error in form.password2.errors %} {{error}} {%endfor%} {%endif%}
+    {% csrf_token %} {{form}} {{form.errors.non_field_errors}}
     <button class="waves-effect waves-light btn red">Sing up</button>
 </form>
 {%endblock%}
